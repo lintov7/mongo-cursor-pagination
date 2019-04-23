@@ -38,7 +38,6 @@ module.exports = async function(collection, params) {
   // Support both the native 'mongodb' driver and 'mongoist'. See:
   // https://www.npmjs.com/package/mongoist#cursor-operations
   const findMethod = collection.findAsCursor ? 'findAsCursor': 'find';
-    console.log(params)
   const results = await collection[findMethod]({ $and: [cursorQuery, params.query] }, params.fields)
     .sort($sort)
     .limit(params.limit + 1) // Query one more element to see if there's another page.

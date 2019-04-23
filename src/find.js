@@ -38,7 +38,7 @@ module.exports = async function(collection, params) {
   // Support both the native 'mongodb' driver and 'mongoist'. See:
   // https://www.npmjs.com/package/mongoist#cursor-operations
   const findMethod = collection.findAsCursor ? 'findAsCursor': 'find';
-
+    console.log(params)
   const results = await collection[findMethod]({ $and: [cursorQuery, params.query] }, params.fields)
     .sort($sort)
     .limit(params.limit + 1) // Query one more element to see if there's another page.
@@ -47,9 +47,9 @@ module.exports = async function(collection, params) {
   const response = prepareResponse(results, params);
 
   // Remove fields that we added to the query (such as paginatedField and _id) that the user didn't ask for.
-  if (removePaginatedFieldInResponse) {
-    response.results = _.map(response.results, (result) => _.omit(result, params.paginatedField));
-  }
+  // if (removePaginatedFieldInResponse) {
+  //   response.results = _.map(response.results, (result) => _.omit(result, params.paginatedField));
+  // }
 
   return response;
 };
